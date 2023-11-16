@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: linear-gradient(to bottom left, #0c192c, #143c6b);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.chat-container {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.chat-container::-webkit-scrollbar {
+  width: 0.4em;
+}
+
+.chat-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-container::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  outline: none;
+}
+.user-box {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.user-box::-webkit-scrollbar {
+  width: 0.4em;
+}
+
+.user-box::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.user-box::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  outline: none;
+}
