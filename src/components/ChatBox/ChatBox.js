@@ -9,6 +9,22 @@ const ChatBox = ({ receiveMessage, user, chatWith, activeRoom }) => {
 
   const chatContainerRef = useRef(null);
 
+  const getTime = () => {
+    const timeStamp = new Date().getTime();
+
+    const date = new Date(timeStamp);
+
+    // Extract hours and minutes
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+
+    const formattedTime = `${hours < 10 ? "0" : ""}${hours}:${
+      minutes < 10 ? "0" : ""
+    }${minutes}`;
+
+    return formattedTime;
+  };
+
   const onSend = (e) => {
     e.preventDefault();
 
@@ -18,6 +34,7 @@ const ChatBox = ({ receiveMessage, user, chatWith, activeRoom }) => {
       recipient: chatWith,
       room: activeRoom,
       read: false,
+      timeSent: getTime(),
     };
 
     socket.emit("send_message", newSentMessage);
@@ -95,9 +112,13 @@ const ChatBox = ({ receiveMessage, user, chatWith, activeRoom }) => {
                         textAlign: "left",
                         wordBreak: "break-word",
                       }}
-                      className="bg-[#1a3c6a] text-white"
+                      className="bg-[#1a3c6a] text-white relative flex justify-center items-center !pr-6 !pb-3"
                     >
                       {data.message}
+
+                      <span className="text-[10px] absolute bottom-[1px] right-2 text-[#f4f5f9] opacity-80">
+                        {data.timeSent}
+                      </span>
                     </div>
                   </div>
                 );

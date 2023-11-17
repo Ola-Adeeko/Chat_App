@@ -7,7 +7,6 @@ import UserBox from "./components/UserBox/UserBox";
 const socket = io("http://localhost:5000");
 
 function generateRoomName(username1, username2) {
-  // Sort usernames to ensure consistency in room naming
   const sortedUsernames = [username1, username2].sort();
   return `room_${sortedUsernames.join("_")}`;
 }
@@ -28,14 +27,10 @@ const App = () => {
     }
   };
 
-  // console.log(receiveMessage);
-
   const setActiveChat = (client) => {
     setChatWith(client);
     const roomName = generateRoomName(me.username, client.username);
     setActiveRoom(roomName);
-
-    // socket.emit("update_read_status", { room: roomName });
 
     setReceiveMessage((prevMessages) => {
       return prevMessages.map((mess) => {
@@ -50,24 +45,6 @@ const App = () => {
       });
     });
   };
-
-  // useEffect(() => {
-  //   if (activeRoom && me) {
-  //     setReceiveMessage((prevMessages) => {
-  //       return prevMessages.map((mess) => {
-  //         if (mess.room === activeRoom && !mess.read) {
-  //           console.log(mess.room);
-  //           return {
-  //             ...mess,
-  //             read: true,
-  //           };
-  //         } else {
-  //           return mess;
-  //         }
-  //       });
-  //     });
-  //   }
-  // }, [activeRoom, me]);
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
@@ -118,7 +95,10 @@ const App = () => {
       >
         {!userSet && (
           <div className="h-full w-full flex items-center justify-center ">
-            <div className="p-4 rounded-md w-[300px] h-[40%] flex flex-col gap-[20px] items-center justify-center bg-[#E6F1FB] drop-shadow-2xl shadow-2xl">
+            <form
+              onSubmit={onSetUser}
+              className="p-4 rounded-md w-[300px] h-[40%] flex flex-col gap-[20px] items-center justify-center bg-[#E6F1FB] drop-shadow-2xl shadow-2xl"
+            >
               <input
                 placeholder="Please input your username"
                 style={{ width: "100%", padding: "5px 10px" }}
@@ -126,13 +106,13 @@ const App = () => {
                 onChange={(e) => setUser(e.target.value)}
               />
               <button
+                type="submit"
                 className="border-solid border-2 border-gray-500 rounded-lg"
-                onClick={() => onSetUser()}
-                style={{ padding: "2px 4px", width: "fit-content" }}
+                style={{ padding: "2px 6px", width: "fit-content" }}
               >
                 Username
               </button>
-            </div>
+            </form>
           </div>
         )}
         {userSet && (
